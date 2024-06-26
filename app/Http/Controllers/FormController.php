@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FormController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $path = $request->file('avatar')->store('avatars', ['disk' => 'public']);
-        dd($path);
+        $path = $request->file('avatar')->store('avatars');
+
+        $url = Storage::url($path);
+
+        dd($url);
     }
 
     /**

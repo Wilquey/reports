@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Exports\ReportExport;
+use App\Jobs\GenerateReport;
 use Illuminate\Console\Command;
-use Maatwebsite\Excel\Facades\Excel;
 
 class Report extends Command
 {
@@ -30,7 +29,8 @@ class Report extends Command
         $startdate = $this->argument('startdate');
         $enddate = $this->argument('enddate');
 
-        Excel::store(new ReportExport($startdate, $enddate), 'report.xlsx', 'public');
+        dispatch(new GenerateReport($startdate, $enddate));
+
         return Command::SUCCESS;
     }
 }
